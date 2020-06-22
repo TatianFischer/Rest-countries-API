@@ -1,0 +1,125 @@
+:root{
+	--font-family: 'Nunito Sans', sans-serif;
+	--width-desktop: 1440px;
+	--width-mobile: 375px;
+	--dark-blue: hsl(209, 23%, 22%);
+	--very-dark-blue-dark: hsl(207, 26%, 17%);
+	--very-dark-blue-light: hsl(200, 15%, 8%);
+	--dark-grey: hsl(0, 0%, 52%);
+	--very-light-gray: hsl(0, 0%, 98%);
+	--white: hsl(0, 0%, 100%);
+}
+
+$fa-font-path: "sass/fontawesome-free-5.13.1-web/webfonts";
+
+@import "fontawesome-free-5.13.1-web/scss/fontawesome.scss";
+@import "fontawesome-free-5.13.1-web/scss/regular.scss";
+@import "fontawesome-free-5.13.1-web/scss/solid.scss";
+
+*{
+	box-sizing: border-box;
+}
+
+body{
+	margin: 0;
+	font-family: var(--font-family);
+}
+
+body.light{
+	background-color: var(--very-light-gray);
+	color: var(--very-dark-blue-light);
+
+	.country-item, header{
+		background-color: var(--white);
+	}
+
+	header{
+		box-shadow: var(--dark-grey) 0 0 10px;
+	}
+
+	.moon {
+	  @extend %fa-icon;
+	  @extend .far;
+
+	  &:before {
+	    content: fa-content($fa-var-moon);
+	  }
+	}
+}
+
+body.dark{
+	background-color: var(--very-dark-blue-dark);
+	color: var(--white);
+
+	.country-item, header{
+		background-color: var(--dark-blue);
+	}
+
+	header{
+		box-shadow: var(--very-dark-blue-light) 0 0 10px;
+	}
+
+	.moon {
+	  @extend %fa-icon;
+	  @extend .fas;
+
+	  &:before {
+	    content: fa-content($fa-var-moon);
+	  }
+	}
+}
+
+i::before{
+	padding-right: 5px;
+}
+
+/* Header */
+header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 80px;
+	padding: 15px;
+
+	h1{
+		font-size: 1.2rem;
+	}
+
+	.form-group:hover{
+		cursor: pointer;
+	}
+
+	input{
+		display: none;
+	}
+}
+
+/* Content */
+main{
+	padding: 35px 25px 60px;
+}
+
+/* Content homepage  */
+.box-countries{
+	display: grid;
+	grid-template-columns: 1fr;
+}
+
+.country-item{
+
+}
+
+/* Content details  */
+
+
+
+@media screen and (min-width: 978px) {
+	header{
+		padding: 15px 80px;
+	}
+	
+	/* Content */
+	main{
+		padding: 40px 80px;
+	}
+}

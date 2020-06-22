@@ -1,2 +1,8 @@
 .DS_Store
 /base
+sass/fontawesome-free-5.13.1-web/css
+sass/fontawesome-free-5.13.1-web/js
+sass/fontawesome-free-5.13.1-web/less
+sass/fontawesome-free-5.13.1-web/metadata
+sass/fontawesome-free-5.13.1-web/sprites
+sass/fontawesome-free-5.13.1-web/svgs
