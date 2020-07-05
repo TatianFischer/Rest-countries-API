@@ -17,95 +17,35 @@
 			</div>
 		</form>
 	</header>
-	<main>
+	<main id="app">
 		<div class="box-form">
 			<form>
 				<fieldset>
-					<div class="form-group">
-						<label for="country">Search for a country</label>
-						<input type="search" name="country" id="country">
+					<div class="form-group search">
+						<input type="search" name="country" id="country" class="form-control" v-model="search" v-on:keyup="getListCountries">
+						<label for="country" v-bind:class="{ active: isSearchActive }">Search for a country...</label>
 					</div>
-					<div class="form-group">
-						<label for="region">Filter par Region</label>
-						<select id="region">
+					<div class="form-group filter">
+						<select id="region" class="form-control" v-model="region" v-on:change="getListCountries">
+							<option value=""></option>
+							<option value="africa">Africa</option>
+							<option value="americas">Americas</option>
+							<option value="asia">Asia</option>
 							<option value="europe">Europe</option>
-							<option value="asie">Asie</option>
+							<option value="oceania">Oceania</option>
 						</select>
+						<label for="region" v-bind:class="{ active: isFilterActive }">Filter by Region</label>
 					</div>
 				</fieldset>
 			</form>
 		</div>
 		<div class="box-countries">
-			<div class="country">
-				<figure>
-					<img src="https://restcountries.eu/data/fra.svg">
-				</figure>
-				<div>
-					<h2>France</h2>
-					<p><b>Population:</b> <span>6,6710,000</span></p>
-					<p><b>Region:</b> <span>Europe</span></p>
-					<p><b>Capital:</b> <span>Paris</span></p>
-				</div>
-			</div>
-			<div class="country">
-				<figure>
-					<img src="https://restcountries.eu/data/fra.svg">
-				</figure>
-				<div>
-					<h2>France</h2>
-					<p><b>Population:</b> <span>6,6710,000</span></p>
-					<p><b>Region:</b> <span>Europe</span></p>
-					<p><b>Capital:</b> <span>Paris</span></p>
-				</div>
-			</div>
-			<div class="country">
-				<figure>
-					<img src="https://restcountries.eu/data/fra.svg">
-				</figure>
-				<div>
-					<h2>France</h2>
-					<p><b>Population:</b> <span>6,6710,000</span></p>
-					<p><b>Region:</b> <span>Europe</span></p>
-					<p><b>Capital:</b> <span>Paris</span></p>
-				</div>
-			</div>
-			<div class="country">
-				<figure>
-					<img src="https://restcountries.eu/data/fra.svg">
-				</figure>
-				<div>
-					<h2>France</h2>
-					<p><b>Population:</b> <span>6,6710,000</span></p>
-					<p><b>Region:</b> <span>Europe</span></p>
-					<p><b>Capital:</b> <span>Paris</span></p>
-				</div>
-			</div>
-			<div class="country">
-				<figure>
-					<img src="https://restcountries.eu/data/fra.svg">
-				</figure>
-				<div>
-					<h2>France</h2>
-					<p><b>Population:</b> <span>6,6710,000</span></p>
-					<p><b>Region:</b> <span>Europe</span></p>
-					<p><b>Capital:</b> <span>Paris</span></p>
-				</div>
-			</div>
-			<div class="country">
-				<figure>
-					<img src="https://restcountries.eu/data/fra.svg">
-				</figure>
-				<div>
-					<h2>France</h2>
-					<p><b>Population:</b> <span>6,6710,000</span></p>
-					<p><b>Region:</b> <span>Europe</span></p>
-					<p><b>Capital:</b> <span>Paris</span></p>
-				</div>
-			</div>
+			<country-item v-for="country in countries" v-bind:country="country" v-bind:key="country.alpha2Code" v-on:show-details="showDetails"></country-item>
 		</div>
 	</main>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 </body>
 </html>
