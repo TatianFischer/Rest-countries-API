@@ -37,7 +37,11 @@ body{
 	font-size: 1.4rem;
 }
 
-body.light{
+#app{
+	min-height: 100vh;
+}
+
+div.light{
 	background-color: var(--very-light-gray);
 	color: var(--very-dark-blue-light);
 
@@ -83,7 +87,7 @@ body.light{
 	}
 }
 
-body.dark{
+div.dark{
 	background-color: var(--very-dark-blue-dark);
 	color: var(--white);
 
