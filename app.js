@@ -14,12 +14,23 @@ Vue.component('country-item', {
     </div>`
 })
 
+Vue.component('border-item', {
+    props : ['border'],
+    template: `
+    <li v-on:click="$emit('show-details', border)">
+        <a>{{ border.name }}</a>
+    </li>`
+})
+
 var vm = new Vue({
     el: '#app',
     data: {
         countries: null,
         search : '',
-        region: ''
+        region: '',
+        details: false,
+        borders: [],
+        isDarkTheme: false
     },
     created () {
         axios
@@ -28,7 +39,25 @@ var vm = new Vue({
     },
     methods: {
         showDetails: function(country){
-            alert(country.name);
+            
+            this.details = country;
+            
+            if(typeof(this.details.borders) === 'object' && this.details.borders.length !== 0){
+                var codes = this.details.borders;
+                var str = '';
+                for(let i = 0; i < codes.length; i++){
+                    str += (i === 0 ) ? codes[i] : ';'+ codes[i];
+                }
+
+                axios
+                    .get('https://restcountries.eu/rest/v2/alpha?codes='+str)
+                    .then(response => (this.borders = response.data))
+                ;
+            }
+        },
+        reset: function(){
+            this.details = false;
+            this.borders = [];
         },
         getListCountries: function(){
             if(this.region == "" && this.search != ""){
@@ -78,6 +107,36 @@ var vm = new Vue({
         },
         isFilterActive : function(){
             return (this.region != '' && this.region != "blank")
+        },
+        getLanguages : function(){
+            if(this.details.languages != undefined){
+                var languages = this.details.languages;
+                var str = '';
+                for(let i = 0; i < languages.length; i++){
+                    str += (i === 0 ) ? languages[i].name : ', '+ languages[i].name;
+                }
+                return str;
+            }
+        },
+        getCurrencies : function(){
+            if(this.details.currencies != undefined){
+                var currencies = this.details.currencies;
+                var str = '';
+                for(let i = 0; i < currencies.length; i++){
+                    str += (i === 0 ) ? currencies[i].name : ', '+ currencies[i].name;
+                }
+                return str;
+            }
+        },
+        getTopLevelDomains : function(){
+            if(this.details.topLevelDomain != undefined){
+                var domains = this.details.topLevelDomain;
+                var str = '';
+                for(let i = 0; i < domains.length; i++){
+                    str += (i === 0 ) ? domains[i] : ', '+ domains[i];
+                }
+                return str;
+            }
         }
     }
 });

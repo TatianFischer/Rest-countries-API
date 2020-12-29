@@ -7,42 +7,76 @@
 	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-<body class="light dark">
-	<header>
-		<h1>Where in the world?</h1>
-		<form class="form-theme">
-			<div class="form-group">
-				<label for="theme"><i class="moon"></i>Dark Mode</label>
-				<input type="checkbox" name="theme" id="theme">
-			</div>
-		</form>
-	</header>
-	<main id="app">
-		<div class="box-form">
-			<form>
-				<fieldset>
-					<div class="form-group search">
-						<input type="search" name="country" id="country" class="form-control" v-model="search" v-on:keyup="getListCountries">
-						<label for="country" v-bind:class="{ active: isSearchActive }">Search for a country...</label>
-					</div>
-					<div class="form-group filter">
-						<select id="region" class="form-control" v-model="region" v-on:change="getListCountries">
-							<option value=""></option>
-							<option value="africa">Africa</option>
-							<option value="americas">Americas</option>
-							<option value="asia">Asia</option>
-							<option value="europe">Europe</option>
-							<option value="oceania">Oceania</option>
-						</select>
-						<label for="region" v-bind:class="{ active: isFilterActive }">Filter by Region</label>
-					</div>
-				</fieldset>
+<body>
+	<div id="app" class="light" v-bind:class="{dark: isDarkTheme}">
+		<header>
+			<h1>Where in the world?</h1>
+			<form class="form-theme">
+				<div class="form-group">
+					<label for="theme"><i class="moon"></i>Dark Mode</label>
+					<input type="checkbox" name="theme" id="theme" v-model="isDarkTheme">
+				</div>
 			</form>
-		</div>
-		<div class="box-countries">
-			<country-item v-for="country in countries" v-bind:country="country" v-bind:key="country.alpha2Code" v-on:show-details="showDetails"></country-item>
-		</div>
-	</main>
+		</header>
+		<main v-if="details !== false">
+			<div v-on:click="reset">
+				<button type="link"><i class="fas fa-arrow-left"></i>Back</button>
+			</div>
+			<section class="box-details">
+				<figure>
+					<img :src="details.flag">
+				</figure>
+				<div class="details">
+					<h2 class="w100">{{ details.name }}</h2>
+					<div class="w50">
+						<p><b>Native Name</b> <span>{{ details.nativeName }}</span></p>
+						<p><b>Population:</b> <span>{{ details.population }}</span></p>
+						<p><b>Region:</b> <span>{{ details.region }}</span></p>
+						<p><b>Sub Region:</b> <span>{{ details.subregion }}</span></p>
+						<p><b>Capital:</b> <span>{{ details.capital }}</span></p>
+					</div>
+					<div class="w50">
+						<p><b>Top Level Domain:</b> <span>{{ getTopLevelDomains }}</span></p>
+						<p><b>Currencies:</b> <span>{{ getCurrencies }}</span></p>
+						<p><b>Languages:</b> <span>{{ getLanguages }}</span></p>
+					</div>
+					
+					<div class="w100">
+						<h3>Border Countries:</h3>
+						<ul class="list-border-countries">
+							<border-item v-for="border in borders" v-bind:border="border" v-bind:key="border.alpha2Code" v-on:show-details="showDetails"></border-item>
+						</ul>
+					</div>
+				</div>			
+			</section>
+		</main>
+		<main v-else>
+			<div class="box-form">
+				<form>
+					<fieldset>
+						<div class="form-group search">
+							<input type="search" name="country" id="country" class="form-control" v-model="search" v-on:keyup="getListCountries">
+							<label for="country" v-bind:class="{ active: isSearchActive }">Search for a country...</label>
+						</div>
+						<div class="form-group filter">
+							<select id="region" class="form-control" v-model="region" v-on:change="getListCountries">
+								<option value=""></option>
+								<option value="africa">Africa</option>
+								<option value="americas">Americas</option>
+								<option value="asia">Asia</option>
+								<option value="europe">Europe</option>
+								<option value="oceania">Oceania</option>
+							</select>
+							<label for="region" v-bind:class="{ active: isFilterActive }">Filter by Region</label>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="box-countries">
+				<country-item v-for="country in countries" v-bind:country="country" v-bind:key="country.alpha2Code" v-on:show-details="showDetails"></country-item>
+			</div>
+		</main>
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
